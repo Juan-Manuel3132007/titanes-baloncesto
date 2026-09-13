@@ -1,14 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Escuela de baloncesto Titanes en la Unidad Deportiva de Belén, Medellín. Formación desde los 10 años hasta categoría mayores.">
-
     <title>Titanes — Escuela de Baloncesto en Medellín</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    
+
+    <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+
+    <header class="cabecera">
+        <div class="contenedor cabecera__interna">
+
+            <a class="logo" href="index.html">
+                <span class="logo__nombre">Titanes</span>
+                <span class="logo__sub">Escuela de Baloncesto</span>
+            </a>
+
+            <button class="menu-boton" id="menu-boton" type="button"
+                    aria-expanded="false" aria-controls="menu-principal">
+                <span class="menu-boton__linea"></span>
+                <span class="menu-boton__linea"></span>
+                <span class="menu-boton__linea"></span>
+                <span class="menu-boton__texto">Menú</span>
+            </button>
+
+            <nav aria-label="Navegación principal">
+                <ul class="menu" id="menu-principal">
+                    <li><a href="index.html" aria-current="page">Inicio</a></li>
+                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="inscripcion.html" class="menu__destacado">Inscríbete</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+    <main id="contenido">
+
+        <!-- ============================================
+             Hero — la primera pantalla
+             ============================================ -->
+        <section class="hero">
+            <div class="contenedor hero__interna">
+
+                <div class="hero__texto">
+                    <p class="hero__ubicacion">Unidad Deportiva de Belén · Medellín</p>
+                    <h1 class="hero__titulo">El talento abre la puerta. El trabajo te mantiene adentro.</h1>
+                    <p class="hero__descripcion">
+                        Baloncesto formativo y competitivo desde los 10 años hasta la
+                        categoría mayores. Seis grupos, cuatro entrenadores y un calendario
+                        real de competencia.
+                    </p>
+
+                    <div class="hero__acciones">
+                        <a class="boton" href="inscripcion.html">Inscríbete ahora</a>
+                        <a class="boton boton--linea" href="grupos.html">Ver los grupos</a>
+                    </div>
+                </div>
+
+                <figure class="hero__figura">
+                    <img src="img/hero.jpg"
+                         alt="Jugadores de Titanes durante un entrenamiento en la cancha"
+                         width="1600" height="1067">
+                </figure>
+
+            </div>
+        </section>
+
+        <!-- ============================================
+             Cifras de la escuela
+             ============================================ -->
+        <section class="cifras">
+            <div class="contenedor cifras__lista">
+                <div class="cifra">
+                    <p class="cifra__numero">2018</p>
+                    <p class="cifra__texto">Año de fundación</p>
+                </div>
+                <div class="cifra">
+                    <p class="cifra__numero">90+</p>
+                    <p class="cifra__texto">Jugadores activos</p>
+                </div>
+                <div class="cifra">
+                    <p class="cifra__numero">6</p>
+                    <p class="cifra__texto">Grupos de entrenamiento</p>
+                </div>
+                <div class="cifra">
+                    <p class="cifra__numero">4</p>
+                    <p class="cifra__texto">Entrenadores</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             Sobre la escuela
+             ============================================ -->
+        <section class="seccion" id="sobre">
+            <div class="contenedor seccion__doble">
+
+                <div class="seccion__encabezado">
+                    <p class="etiqueta">Quiénes somos</p>
+                    <h2>Una escuela que trabaja por etapas</h2>
+                </div>
+
+                <div class="seccion__cuerpo">
+                    <p>
+                        Titanes nació en 2018 con una idea sencilla: que aprender baloncesto
+                        no dependa de tener condiciones desde el primer día. Trabajamos por
+                        etapas, respetando el ritmo de cada jugador, con grupos reducidos
+                        para que nadie pase desapercibido en un entrenamiento.
+                    </p>
+                    <p>
+                        Hoy entrenamos a más de 90 jugadores repartidos en seis grupos, y
+                        competimos en los torneos departamentales de cada categoría.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================
+             Las cuatro categorías
+             ============================================ -->
+        <section class="seccion seccion--oscura" id="categorias">
+            <div class="contenedor">
+
+                <div class="seccion__encabezado seccion__encabezado--centrado">
+                    <p class="etiqueta">Cómo nos organizamos</p>
+                    <h2>Cuatro categorías, un mismo método</h2>
+                    <p class="seccion__intro">
+                        Cada etapa tiene su propio enfoque. No se entrena igual a alguien
+                        que está aprendiendo a botar que a un jugador que compite todas
+                        las semanas.
+                    </p>
+                </div>
+
+                <div class="categorias">
+
+                    <article class="categoria">
+                        <p class="categoria__edad">10 a 12 años</p>
+                        <h3>Formativa</h3>
+                        <p>
+                            Fundamentos individuales: manejo de balón, pase y entrada a
+                            canasta. Se juega mucho y se corrige poco, porque a esta edad
+                            lo importante es que el balón se vuelva familiar.
+                        </p>
+                    </article>
+
+                    <article class="categoria">
+                        <p class="categoria__edad">13 a 16 años</p>
+                        <h3>Competitiva</h3>
+                        <p>
+                            Se añade lectura de juego, defensa en equipo y sistemas
+                            ofensivos básicos. Es la primera etapa donde se compite
+                            en serio y se aprende a perder.
+                        </p>
+                    </article>
+
+                    <article class="categoria">
+                        <p class="categoria__edad">17 a 20 años</p>
+                        <h3>Elite</h3>
+                        <p>
+                            Alto rendimiento: cinco sesiones semanales, preparación física
+                            dirigida y análisis de video. Representa a la escuela en los
+                            torneos departamentales.
+                        </p>
+                    </article>
+
+                    <article class="categoria">
+                        <p class="categoria__edad">21 años en adelante</p>
+                        <h3>Mayores</h3>
+                        <p>
+                            Categoría abierta para quienes quieren seguir compitiendo.
+                            El grupo participa en la liga municipal de mayores.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================
+             Llamado final a la acción
+             ============================================ -->
+        <section class="cierre">
+            <div class="contenedor cierre__interna">
+                <div>
+                    <h2>¿Listo para entrenar con nosotros?</h2>
+                    <p>
+                        Revisa los horarios y los cupos disponibles de cada grupo.
+                        La inscripción toma menos de cinco minutos.
+                    </p>
+                </div>
+                <a class="boton boton--claro" href="inscripcion.html">Inscríbete ahora</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="pie">
+        <div class="contenedor pie__interna">
+
+            <div class="pie__bloque">
+                <p class="pie__titulo">Titanes</p>
+                <p>Escuela de Baloncesto</p>
+                <p>Unidad Deportiva de Belén<br>Medellín, Antioquia</p>
+            </div>
+
+            <div class="pie__bloque">
+                <p class="pie__titulo">Contacto</p>
+                <p><a href="tel:+576040000000">(604) 000 0000</a></p>
+                <p><a href="mailto:contacto@titanesbaloncesto.com">contacto@titanesbaloncesto.com</a></p>
+                <p>Lunes a viernes, 2:00 p.m. – 8:00 p.m.</p>
+            </div>
+
+            <div class="pie__bloque">
+                <p class="pie__titulo">Navegación</p>
+                <ul class="pie__menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="inscripcion.html">Inscripción</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="contenedor pie__legal">
+            <p>© 2026 Escuela de Baloncesto Titanes. Proyecto académico — Universidad de Medellín.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>

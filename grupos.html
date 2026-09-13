@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Los seis grupos de entrenamiento de Titanes: horarios, precios y cupos disponibles por categoría.">
+    <title>Grupos y horarios — Titanes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+
+    <header class="cabecera">
+        <div class="contenedor cabecera__interna">
+
+            <a class="logo" href="index.html">
+                <span class="logo__nombre">Titanes</span>
+                <span class="logo__sub">Escuela de Baloncesto</span>
+            </a>
+
+            <button class="menu-boton" id="menu-boton" type="button"
+                    aria-expanded="false" aria-controls="menu-principal">
+                <span class="menu-boton__linea"></span>
+                <span class="menu-boton__linea"></span>
+                <span class="menu-boton__linea"></span>
+                <span class="menu-boton__texto">Menú</span>
+            </button>
+
+            <nav aria-label="Navegación principal">
+                <ul class="menu" id="menu-principal">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="grupos.html" aria-current="page">Grupos</a></li>
+                    <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="inscripcion.html" class="menu__destacado">Inscríbete</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+    <main id="contenido">
+
+        <section class="encabezado-pagina">
+            <div class="contenedor">
+                <p class="etiqueta">Entrenamientos</p>
+                <h1>Nuestros grupos</h1>
+                <p class="encabezado-pagina__intro">
+                    Seis grupos repartidos en cuatro categorías. Cada uno tiene su propio
+                    horario, su entrenador y un número limitado de cupos. Filtra por
+                    categoría para encontrar el que te corresponde.
+                </p>
+            </div>
+        </section>
+
+        <!-- ============================================
+             Filtro por categoría — interacción del Grupo A
+             ============================================ -->
+        <section class="seccion">
+            <div class="contenedor">
+
+                <div class="filtros" id="filtros" role="group" aria-label="Filtrar grupos por categoría">
+                    <button class="filtro filtro--activo" type="button" data-categoria="todas">
+                        Todas
+                    </button>
+                    <button class="filtro" type="button" data-categoria="formativa">
+                        Formativa
+                    </button>
+                    <button class="filtro" type="button" data-categoria="competitiva">
+                        Competitiva
+                    </button>
+                    <button class="filtro" type="button" data-categoria="elite">
+                        Elite
+                    </button>
+                    <button class="filtro" type="button" data-categoria="mayores">
+                        Mayores
+                    </button>
+                </div>
+
+                <p class="resultado-filtro" id="resultado-filtro" role="status" aria-live="polite"></p>
+
+                <!-- Este contenedor se llena desde js/main.js
+                     a partir del arreglo de objetos "grupos".
+                     En la Entrega 2 ese arreglo se reemplaza por
+                     los datos que vengan de la API. -->
+                <div class="catalogo" id="catalogo"></div>
+
+            </div>
+        </section>
+
+        <section class="cierre">
+            <div class="contenedor cierre__interna">
+                <div>
+                    <h2>¿Ya sabes cuál es tu grupo?</h2>
+                    <p>La inscripción toma menos de cinco minutos.</p>
+                </div>
+                <a class="boton boton--claro" href="inscripcion.html">Inscríbete ahora</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="pie">
+        <div class="contenedor pie__interna">
+
+            <div class="pie__bloque">
+                <p class="pie__titulo">Titanes</p>
+                <p>Escuela de Baloncesto</p>
+                <p>Unidad Deportiva de Belén<br>Medellín, Antioquia</p>
+            </div>
+
+            <div class="pie__bloque">
+                <p class="pie__titulo">Contacto</p>
+                <p><a href="tel:+576040000000">(604) 000 0000</a></p>
+                <p><a href="mailto:contacto@titanesbaloncesto.com">contacto@titanesbaloncesto.com</a></p>
+                <p>Lunes a viernes, 2:00 p.m. – 8:00 p.m.</p>
+            </div>
+
+            <div class="pie__bloque">
+                <p class="pie__titulo">Navegación</p>
+                <ul class="pie__menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="inscripcion.html">Inscripción</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="contenedor pie__legal">
+            <p>© 2026 Escuela de Baloncesto Titanes. Proyecto académico — Universidad de Medellín.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

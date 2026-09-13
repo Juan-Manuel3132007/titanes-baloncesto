@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Formulario de inscripción a los grupos de entrenamiento de la escuela de baloncesto Titanes.">
+    <meta name="description" content="Formulario de inscripción a los programas de entrenamiento de la escuela de baloncesto Titanes.">
     <title>Inscripción — Titanes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +18,15 @@
         <div class="contenedor cabecera__interna">
 
             <a class="logo" href="index.html">
-                <span class="logo__nombre">Titanes</span>
-                <span class="logo__sub">Escuela de Baloncesto</span>
+                <svg class="logo__marca" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                    <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3"/>
+                    <path d="M24 3v42M3 24h42" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                    <path d="M9 9c10 8 10 22 0 30M39 9c-10 8-10 22 0 30" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                </svg>
+                <span class="logo__texto">
+                    <span class="logo__nombre">Titanes</span>
+                    <span class="logo__sub">Escuela de Baloncesto</span>
+                </span>
             </a>
 
             <button class="menu-boton" id="menu-boton" type="button"
@@ -33,8 +40,9 @@
             <nav aria-label="Navegación principal">
                 <ul class="menu" id="menu-principal">
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="grupos.html">Programas</a></li>
                     <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="index.html#pagos">Pagos</a></li>
                     <li><a href="inscripcion.html" class="menu__destacado" aria-current="page">Inscríbete</a></li>
                 </ul>
             </nav>
@@ -58,11 +66,10 @@
         <section class="seccion">
             <div class="contenedor formulario-zona">
 
-                <!-- novalidate desactiva los mensajes por defecto del navegador
-                     para que la validación sea la nuestra, escrita en JS. -->
+                <!-- novalidate desactiva los mensajes por defecto del
+                     navegador para que la validación sea la nuestra. -->
                 <form class="formulario" id="formulario" novalidate>
 
-                    <!-- ---------- Datos del aspirante ---------- -->
                     <fieldset class="campos">
                         <legend>Datos del aspirante</legend>
 
@@ -83,11 +90,11 @@
                         </div>
 
                         <div class="campo">
-                            <label for="grupo">Grupo de interés</label>
-                            <!-- Las opciones se generan desde el arreglo de grupos
-                                 en js/main.js, igual que el catálogo. -->
+                            <label for="grupo">Programa de interés</label>
+                            <!-- Las opciones se generan desde el arreglo
+                                 de grupos en js/main.js, igual que el catálogo. -->
                             <select id="grupo" name="grupo" aria-describedby="error-grupo">
-                                <option value="">Selecciona un grupo</option>
+                                <option value="">Selecciona un programa</option>
                             </select>
                             <p class="error" id="error-grupo"></p>
                         </div>
@@ -110,7 +117,6 @@
                         </div>
                     </fieldset>
 
-                    <!-- ---------- Experiencia ---------- -->
                     <fieldset class="campos">
                         <legend>Experiencia previa</legend>
 
@@ -131,7 +137,7 @@
                         </div>
                     </fieldset>
 
-                    <!-- ---------- Acudiente: aparece solo si es menor de edad ---------- -->
+                    <!-- Aparece solo si la edad es menor de 18 -->
                     <fieldset class="campos campos--acudiente" id="bloque-acudiente" hidden>
                         <legend>Datos del acudiente</legend>
                         <p class="campos__nota">
@@ -164,7 +170,6 @@
                         </div>
                     </fieldset>
 
-                    <!-- ---------- Cierre ---------- -->
                     <fieldset class="campos">
                         <legend>Información adicional</legend>
 
@@ -204,10 +209,17 @@
                     </div>
 
                     <div class="lateral__caja">
+                        <h2>Costos</h2>
+                        <p>
+                            Matrícula de $80.000 por una sola vez y mensualidad según
+                            el programa, entre $95.000 y $180.000.
+                        </p>
+                        <p><a href="index.html#pagos">Ver el detalle de pagos</a></p>
+                    </div>
+
+                    <div class="lateral__caja">
                         <h2>Dónde entrenamos</h2>
                         <p>Unidad Deportiva de Belén<br>Medellín, Antioquia</p>
-                        <!-- Reemplaza este iframe por el que te da Google Maps:
-                             busca "Unidad Deportiva de Belén" → Compartir → Insertar un mapa -->
                         <iframe
                             title="Ubicación de la escuela en la Unidad Deportiva de Belén"
                             src="https://www.google.com/maps?q=Unidad+Deportiva+de+Belen+Medellin&output=embed"
@@ -235,7 +247,7 @@
 
             <div class="pie__bloque">
                 <p class="pie__titulo">Contacto</p>
-                <p><a href="tel:+576040000000">(604) 000 0000</a></p>
+                <p><a href="tel:+576044445566">(604) 444 5566</a></p>
                 <p><a href="mailto:contacto@titanesbaloncesto.com">contacto@titanesbaloncesto.com</a></p>
                 <p>Lunes a viernes, 2:00 p.m. – 8:00 p.m.</p>
             </div>
@@ -244,8 +256,10 @@
                 <p class="pie__titulo">Navegación</p>
                 <ul class="pie__menu">
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="grupos.html">Programas</a></li>
                     <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="index.html#torneos">Torneos</a></li>
+                    <li><a href="index.html#pagos">Pagos</a></li>
                     <li><a href="inscripcion.html">Inscripción</a></li>
                 </ul>
             </div>

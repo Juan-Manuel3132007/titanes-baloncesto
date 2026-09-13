@@ -18,8 +18,15 @@
         <div class="contenedor cabecera__interna">
 
             <a class="logo" href="index.html">
-                <span class="logo__nombre">Titanes</span>
-                <span class="logo__sub">Escuela de Baloncesto</span>
+                <svg class="logo__marca" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                    <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3"/>
+                    <path d="M24 3v42M3 24h42" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                    <path d="M9 9c10 8 10 22 0 30M39 9c-10 8-10 22 0 30" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                </svg>
+                <span class="logo__texto">
+                    <span class="logo__nombre">Titanes</span>
+                    <span class="logo__sub">Escuela de Baloncesto</span>
+                </span>
             </a>
 
             <button class="menu-boton" id="menu-boton" type="button"
@@ -33,8 +40,9 @@
             <nav aria-label="Navegación principal">
                 <ul class="menu" id="menu-principal">
                     <li><a href="index.html" aria-current="page">Inicio</a></li>
-                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="grupos.html">Programas</a></li>
                     <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="index.html#pagos">Pagos</a></li>
                     <li><a href="inscripcion.html" class="menu__destacado">Inscríbete</a></li>
                 </ul>
             </nav>
@@ -45,43 +53,53 @@
     <main id="contenido">
 
         <!-- ============================================
-             Hero — la primera pantalla
+             Hero
              ============================================ -->
         <section class="hero">
             <div class="contenedor hero__interna">
-
-                <div class="hero__texto">
-                    <p class="hero__ubicacion">Unidad Deportiva de Belén · Medellín</p>
-                    <h1 class="hero__titulo">El talento abre la puerta. El trabajo te mantiene adentro.</h1>
-                    <p class="hero__descripcion">
-                        Baloncesto formativo y competitivo desde los 10 años hasta la
-                        categoría mayores. Seis grupos, cuatro entrenadores y un calendario
-                        real de competencia.
-                    </p>
-
-                    <div class="hero__acciones">
-                        <a class="boton" href="inscripcion.html">Inscríbete ahora</a>
-                        <a class="boton boton--linea" href="grupos.html">Ver los grupos</a>
-                    </div>
+                <p class="hero__ubicacion">Unidad Deportiva de Belén · Medellín</p>
+                <h1 class="hero__titulo">El talento abre la puerta. El trabajo te mantiene adentro.</h1>
+                <p class="hero__descripcion">
+                    Ocho años formando jugadores en Belén. Cuatro categorías, seis programas
+                    de entrenamiento y un calendario real de competencia, desde los 10 años
+                    hasta la categoría mayores.
+                </p>
+                <div class="hero__acciones">
+                    <a class="boton" href="inscripcion.html">Inscríbete ahora</a>
+                    <a class="boton boton--linea" href="grupos.html">Ver los programas</a>
                 </div>
+            </div>
 
-                <figure class="hero__figura">
-                    <img src="img/hero.jpg"
-                         alt="Jugadores de Titanes durante un entrenamiento en la cancha"
-                         width="1600" height="1067">
-                </figure>
+            <!-- Tira de fotos en movimiento continuo.
+                 aria-hidden porque es decorativa: el contenido
+                 informativo ya está en el texto de arriba. -->
+            <div class="tira" aria-hidden="true">
+                <div class="tira__pista">
+                    <figure class="tira__foto"><img src="img/hero.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-formativa.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-competitiva.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-elite.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-mayores.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/entrenador-1.jpg" alt="" loading="lazy"></figure>
 
+                    <figure class="tira__foto"><img src="img/hero.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-formativa.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-competitiva.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-elite.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/grupo-mayores.jpg" alt="" loading="lazy"></figure>
+                    <figure class="tira__foto"><img src="img/entrenador-1.jpg" alt="" loading="lazy"></figure>
+                </div>
             </div>
         </section>
 
         <!-- ============================================
-             Cifras de la escuela
+             Cifras
              ============================================ -->
         <section class="cifras">
             <div class="contenedor cifras__lista">
                 <div class="cifra">
-                    <p class="cifra__numero">2018</p>
-                    <p class="cifra__texto">Año de fundación</p>
+                    <p class="cifra__numero">8</p>
+                    <p class="cifra__texto">Años formando jugadores</p>
                 </div>
                 <div class="cifra">
                     <p class="cifra__numero">90+</p>
@@ -89,7 +107,7 @@
                 </div>
                 <div class="cifra">
                     <p class="cifra__numero">6</p>
-                    <p class="cifra__texto">Grupos de entrenamiento</p>
+                    <p class="cifra__texto">Programas de entrenamiento</p>
                 </div>
                 <div class="cifra">
                     <p class="cifra__numero">4</p>
@@ -117,8 +135,9 @@
                         para que nadie pase desapercibido en un entrenamiento.
                     </p>
                     <p>
-                        Hoy entrenamos a más de 90 jugadores repartidos en seis grupos, y
-                        competimos en los torneos departamentales de cada categoría.
+                        Hoy entrenamos a más de 90 jugadores repartidos en seis programas, y
+                        competimos en los torneos departamentales de cada categoría. Entrenamos
+                        en la Unidad Deportiva de Belén todos los días de la semana.
                     </p>
                 </div>
 
@@ -187,13 +206,155 @@
             </div>
         </section>
 
-       
+        <!-- ============================================
+             Torneos
+             ============================================ -->
+        <section class="seccion" id="torneos">
+            <div class="contenedor">
+
+                <div class="seccion__encabezado seccion__encabezado--centrado">
+                    <p class="etiqueta">Competencia</p>
+                    <h2>Dónde compiten nuestros jugadores</h2>
+                    <p class="seccion__intro">
+                        Entrenar sin competir deja el aprendizaje a medias. Cada categoría
+                        tiene su propio calendario según la edad y el nivel.
+                    </p>
+                </div>
+
+                <div class="torneos">
+
+                    <article class="torneo">
+                        <p class="torneo__categoria">Formativa</p>
+                        <h3>Festivales formativos</h3>
+                        <p>
+                            Encuentros sin tabla de posiciones, pensados para que los más
+                            pequeños jueguen partidos reales sin la presión del resultado.
+                        </p>
+                        <p class="torneo__cuando">Marzo · Julio · Noviembre</p>
+                    </article>
+
+                    <article class="torneo">
+                        <p class="torneo__categoria">Competitiva</p>
+                        <h3>Juegos Intercolegiados</h3>
+                        <p>
+                            La competencia escolar más grande del país. Se juega por fases
+                            municipales y los clasificados avanzan a la etapa departamental.
+                        </p>
+                        <p class="torneo__cuando">Abril a septiembre</p>
+                    </article>
+
+                    <article class="torneo">
+                        <p class="torneo__categoria">Elite</p>
+                        <h3>Liga departamental de Antioquia</h3>
+                        <p>
+                            Calendario largo con partidos de ida y vuelta. Es la vitrina
+                            para quienes aspiran a una convocatoria departamental.
+                        </p>
+                        <p class="torneo__cuando">Febrero a octubre</p>
+                    </article>
+
+                    <article class="torneo">
+                        <p class="torneo__categoria">Mayores</p>
+                        <h3>Liga municipal de Medellín</h3>
+                        <p>
+                            Torneo abierto de fines de semana, compatible con horarios de
+                            trabajo y estudio.
+                        </p>
+                        <p class="torneo__cuando">Todo el año</p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================
+             Pagos
+             ============================================ -->
+        <section class="seccion seccion--oscura" id="pagos">
+            <div class="contenedor">
+
+                <div class="seccion__encabezado seccion__encabezado--centrado">
+                    <p class="etiqueta">Matrícula y mensualidad</p>
+                    <h2>Cómo funcionan los pagos</h2>
+                    <p class="seccion__intro">
+                        Sin contratos de permanencia. Se paga mes a mes y la matrícula se
+                        cobra una sola vez al ingresar.
+                    </p>
+                </div>
+
+                <div class="pagos">
+
+                    <div class="pagos__tabla-zona">
+                        <table class="tabla-pagos">
+                            <caption>Valores vigentes para 2026</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Concepto</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Frecuencia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Matrícula</th>
+                                    <td>$80.000</td>
+                                    <td>Una sola vez</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mensualidad Formativa</th>
+                                    <td>$95.000 – $110.000</td>
+                                    <td>Mensual</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mensualidad Competitiva</th>
+                                    <td>$130.000</td>
+                                    <td>Mensual</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mensualidad Elite</th>
+                                    <td>$180.000</td>
+                                    <td>Mensual</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mensualidad Mayores</th>
+                                    <td>$120.000</td>
+                                    <td>Mensual</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Uniforme de competencia</th>
+                                    <td>$150.000</td>
+                                    <td>Al clasificar a torneo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <aside class="pagos__notas">
+                        <h3>Lo que debes saber</h3>
+                        <ul class="lista-marcada">
+                            <li>La primera sesión es de prueba y no tiene costo.</li>
+                            <li>La mensualidad se paga dentro de los primeros cinco días del mes.</li>
+                            <li>Descuento del 15% para hermanos inscritos en el mismo periodo.</li>
+                            <li>Medios de pago: efectivo en la sede, transferencia bancaria o Nequi.</li>
+                            <li>No hay cláusula de permanencia: puedes retirarte avisando con un mes.</li>
+                        </ul>
+                    </aside>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================
+             Cierre
+             ============================================ -->
         <section class="cierre">
             <div class="contenedor cierre__interna">
                 <div>
                     <h2>¿Listo para entrenar con nosotros?</h2>
                     <p>
-                        Revisa los horarios y los cupos disponibles de cada grupo.
+                        Revisa los horarios y los cupos disponibles de cada programa.
                         La inscripción toma menos de cinco minutos.
                     </p>
                 </div>
@@ -214,7 +375,7 @@
 
             <div class="pie__bloque">
                 <p class="pie__titulo">Contacto</p>
-                <p><a href="tel:+576040000000">(604) 000 0000</a></p>
+                <p><a href="tel:+576044445566">(604) 444 5566</a></p>
                 <p><a href="mailto:contacto@titanesbaloncesto.com">contacto@titanesbaloncesto.com</a></p>
                 <p>Lunes a viernes, 2:00 p.m. – 8:00 p.m.</p>
             </div>
@@ -223,8 +384,10 @@
                 <p class="pie__titulo">Navegación</p>
                 <ul class="pie__menu">
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="grupos.html">Grupos</a></li>
+                    <li><a href="grupos.html">Programas</a></li>
                     <li><a href="entrenadores.html">Entrenadores</a></li>
+                    <li><a href="index.html#torneos">Torneos</a></li>
+                    <li><a href="index.html#pagos">Pagos</a></li>
                     <li><a href="inscripcion.html">Inscripción</a></li>
                 </ul>
             </div>
@@ -239,3 +402,4 @@
     <script src="js/main.js"></script>
 </body>
 </html>
+

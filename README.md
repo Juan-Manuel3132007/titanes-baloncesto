@@ -34,13 +34,13 @@ que devuelva la API, y el resto del código no tiene que cambiar.
 ## Capturas
 
 ### Escritorio
-![Vista del sitio en escritorio](img/captura-escritorio.png)
+![Vista del sitio en escritorio](img/escritorio1.png)
 
 ### Móvil
-![Vista del sitio en móvil](img/captura-movil.png)
+![Vista del sitio en móvil](img/escritorio.png)
 
 ## Estructura del proyecto
-
+```
 titanes-baloncesto/
 ├── index.html Inicio: hero, categorías, torneos y pagos
 ├── grupos.html Catálogo de programas con filtro
@@ -50,7 +50,7 @@ titanes-baloncesto/
 ├── js/main.js Datos y lógica de la interfaz
 └── img/ Imágenes
 
-
+```
 
 
 Usé **un solo archivo CSS y un solo JavaScript** para las cuatro
@@ -187,23 +187,15 @@ mi dominio**:
 
 ### Uso de IA
 
-> ⚠️ ESCRIBE ESTA SECCIÓN CON TUS PALABRAS. Di honestamente para qué
-> la usaste (por ejemplo: para que te explicara cómo funciona el DOM,
-> para resolver el problema del `.gitignore`, para revisar el CSS),
+>para que te explicara cómo funciona el DOM,
+> para resolver el problema del `.gitignore`, para revisar el (CSS),
 > y qué decidiste tú: el tema del proyecto, las categorías, los
 > horarios, los precios, los nombres, la regla de los cupos, la de
-> la edad por programa, los colores.
+> la edad por programa, los colores y en organizar el readme en palabras mas estrucuturadas y que fuera mas tecnico.
 
 ### Lo más difícil
 
-> ⚠️ ESCRIBE ESTA SECCIÓN CON TUS PALABRAS. Tienes cosas reales que
-> contar: cuando borraste por error los archivos estando en `main` en
-> vez de en la rama nueva y tocó recuperarlo con `git revert`; cuando
-> `node_modules` se subió al repositorio porque el `.gitignore` había
-> quedado dentro de la carpeta `dist` en vez de en la raíz, y tocó
-> sacarlo con `git rm -r --cached`; o entender por qué una rama nueva
-> muestra el contenido de `main` en vez de estar vacía.
-
+Las imágenes no aparecían en el sitio publicado. La carpeta img había quedado dentro de js, y dos archivos tenían la extensión equivocada (.jpeg y .webp cuando el HTML pedía .jpg). En local podía no notarse; en Vercel se vio de una
 ## Próximos pasos (Entrega 2)
 
 - Reemplazar el arreglo de objetos de `js/main.js` por llamadas a la

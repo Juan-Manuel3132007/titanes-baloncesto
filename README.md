@@ -195,7 +195,7 @@ mi dominio**:
 
 ### Lo más difícil
 
-Las imágenes no aparecían en el sitio publicado. La carpeta img había quedado dentro de js, y dos archivos tenían la extensión equivocada (.jpeg y .webp cuando el HTML pedía .jpg). En local podía no notarse; en Vercel se vio de una
+Las imágenes no aparecían en el sitio publicado. La carpeta img había quedado dentro de js, y dos archivos tenían la extensión equivocada (.jpeg y .webp cuando el HTML pedía .jpg). En local podía no notarse; en Vercel se vio de unay el manejo para la creacion en web y js, css y html no tanto por que la verdad la IA me ayudo mucho ademas para crear los disenos y aprendi mucho mas por que conocia muy pocas etiquetas 
 ## Próximos pasos (Entrega 2)
 
 - Reemplazar el arreglo de objetos de `js/main.js` por llamadas a la

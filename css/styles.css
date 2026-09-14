@@ -1,23 +1,4 @@
-/* ============================================================
-   Titanes — Escuela de Baloncesto
-   Hoja de estilos principal
-   Juan Manuel Moreno Muñoz
 
-   ORGANIZACIÓN
-   1.  Variables            9.  Categorías
-   2.  Reset y base         10. Filtros y panel de categoría
-   3.  Utilidades           11. Tarjetas del catálogo
-   4.  Cabecera             12. Entrenadores
-   5.  Botones              13. Formulario
-   6.  Hero                 14. Cierre y pie
-   7.  Cifras               15. Responsive
-   8.  Secciones
-   ============================================================ */
-
-
-/* ============================================================
-   1. VARIABLES
-   ============================================================ */
 
 :root {
     --pista:        #F3F1F6;
@@ -28,6 +9,7 @@
     --balon:        #7B2CBF;
     --linea:        #DDD8E4;
 
+    /* Un color por categoría: se usa en filtros, tarjetas y panel */
     --cat-formativa:   #2A9D8F;
     --cat-competitiva: #3A56B8;
     --cat-elite:       #7B2CBF;
@@ -74,8 +56,8 @@ body {
     /* Trama diagonal muy tenue: da textura sin ensuciar el fondo */
     background-image: repeating-linear-gradient(
         45deg,
-        rgba(23, 36, 61, 0.025) 0px,
-        rgba(23, 36, 61, 0.025) 1px,
+        rgba(20, 16, 27, 0.022) 0px,
+        rgba(20, 16, 27, 0.022) 1px,
         transparent 1px,
         transparent 14px
     );
@@ -167,7 +149,7 @@ textarea:focus-visible {
 
 
 /* ============================================================
-   4. CABECERA
+   4. CABECERA Y LOGO
    Flexbox: una fila, dos extremos, un solo eje.
    ============================================================ */
 
@@ -189,8 +171,22 @@ textarea:focus-visible {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     text-decoration: none;
     line-height: 1;
+}
+
+.logo__marca {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--balon);
+    flex-shrink: 0;
+}
+
+.logo__texto {
+    display: block;
 }
 
 .logo__nombre {
@@ -239,10 +235,9 @@ textarea:focus-visible {
     white-space: nowrap;
 }
 
-/* Las tres líneas forman una X cuando el menú está abierto.
-   Se engancha a aria-expanded, que es el mismo atributo que
-   lee un lector de pantalla: estado visual y accesible siempre
-   coinciden. */
+/* Las tres líneas forman una X al abrir. Se engancha a
+   aria-expanded, el mismo atributo que lee un lector de
+   pantalla: estado visual y accesible siempre coinciden. */
 .menu-boton[aria-expanded="true"] .menu-boton__linea:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
 }
@@ -267,6 +262,28 @@ textarea:focus-visible {
 
 .menu--abierto {
     display: flex;
+}
+
+/* Cada enlace entra escalonado al abrir el menú */
+.menu--abierto li {
+    animation: menu-entra 260ms ease both;
+}
+
+.menu--abierto li:nth-child(1) { animation-delay: 30ms; }
+.menu--abierto li:nth-child(2) { animation-delay: 60ms; }
+.menu--abierto li:nth-child(3) { animation-delay: 90ms; }
+.menu--abierto li:nth-child(4) { animation-delay: 120ms; }
+.menu--abierto li:nth-child(5) { animation-delay: 150ms; }
+
+@keyframes menu-entra {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .menu a {
@@ -349,24 +366,35 @@ textarea:focus-visible {
     font-size: 1.05rem;
 }
 
+.boton--agotado,
+.boton:disabled {
+    background-color: var(--linea);
+    border-color: var(--linea);
+    color: var(--tinta-suave);
+    cursor: not-allowed;
+}
+
+.boton--agotado:hover {
+    background-color: var(--linea);
+    border-color: var(--linea);
+    color: var(--tinta-suave);
+}
+
 
 /* ============================================================
-   6. HERO
+   6. HERO Y TIRA DE FOTOS
    ============================================================ */
 
 .hero {
     background-color: var(--blanco);
     border-bottom: 1px solid var(--linea);
     padding-block: var(--e4) 0;
-    position: relative;
+    text-align: center;
     overflow: hidden;
 }
 
 .hero__interna {
-    display: grid;
-    gap: var(--e4);
-    position: relative;
-    z-index: 1;
+    max-width: 54rem;
 }
 
 .hero__ubicacion {
@@ -377,14 +405,12 @@ textarea:focus-visible {
 }
 
 .hero__titulo {
-    max-width: 16ch;
-    padding-bottom: var(--e3);
-    border-bottom: 5px solid var(--balon);
+    margin-inline: auto;
 }
 
 .hero__descripcion {
-    margin-top: var(--e3);
-    max-width: 46ch;
+    margin: var(--e3) auto 0;
+    max-width: 52ch;
     font-size: 1.05rem;
     color: var(--tinta-media);
 }
@@ -392,17 +418,59 @@ textarea:focus-visible {
 .hero__acciones {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--e2);
     margin-top: var(--e4);
-    margin-bottom: var(--e4);
 }
 
-.hero__figura img {
-    width: 100%;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    border-radius: var(--radio);
+/* --- Tira de fotos en movimiento continuo --------------------
+   Las imágenes están duplicadas en el HTML. La animación
+   desplaza la pista exactamente la mitad de su ancho, así que
+   al terminar el ciclo la segunda copia queda donde estaba la
+   primera y el salto es invisible. */
+
+.tira {
+    overflow: hidden;
+    padding-block: var(--e4) var(--e5);
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
 }
+
+.tira__pista {
+    display: flex;
+    gap: var(--e2);
+    width: max-content;
+    animation: desfile 38s linear infinite;
+}
+
+.tira:hover .tira__pista {
+    animation-play-state: paused;
+}
+
+@keyframes desfile {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.tira__foto {
+    width: 11rem;
+    flex-shrink: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--linea);
+    box-shadow: 0 10px 24px rgba(20, 16, 27, 0.12);
+}
+
+.tira__foto img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+/* Inclinaciones alternas: dan el aire suelto de una tira de fotos */
+.tira__foto:nth-child(3n+1) { transform: rotate(-3deg); }
+.tira__foto:nth-child(3n+2) { transform: rotate(2deg) translateY(-0.75rem); }
+.tira__foto:nth-child(3n+3) { transform: rotate(-1deg) translateY(0.5rem); }
 
 
 /* ============================================================
@@ -431,7 +499,7 @@ textarea:focus-visible {
 
 .cifra__texto {
     font-size: 0.9rem;
-    color: #B7C0D0;
+    color: #C4BCD2;
     margin-top: var(--e1);
 }
 
@@ -478,9 +546,8 @@ textarea:focus-visible {
     margin-top: var(--e2);
 }
 
-/* Encabezado de las páginas internas.
-   Los dos círculos concéntricos evocan el arco de tiro libre
-   de una cancha; van detrás del texto, apenas visibles. */
+/* Encabezado de páginas internas. Los dos círculos evocan el
+   arco de tiro libre; van detrás del texto, apenas visibles. */
 .encabezado-pagina {
     background-color: var(--blanco);
     border-bottom: 1px solid var(--linea);
@@ -609,7 +676,6 @@ textarea:focus-visible {
     min-height: 1.5em;
 }
 
-/* Panel que aparece al filtrar por una categoría concreta */
 .panel-categoria {
     background-color: var(--blanco);
     border: 1px solid var(--linea);
@@ -707,8 +773,8 @@ textarea:focus-visible {
     border-top: 4px solid var(--linea);
     border-radius: var(--radio);
     overflow: hidden;
-    /* La entrada se dispara al filtrar, no sola al cargar.
-       El retraso escalonado lo pone el JS con la variable --i. */
+    /* La entrada se dispara al filtrar. El retraso escalonado
+       lo pone el JS con la variable --i. */
     animation: entrada 320ms ease both;
     animation-delay: calc(var(--i, 0) * 45ms);
 }
@@ -728,6 +794,15 @@ textarea:focus-visible {
 .tarjeta[data-categoria="competitiva"] { border-top-color: var(--cat-competitiva); }
 .tarjeta[data-categoria="elite"]       { border-top-color: var(--cat-elite); }
 .tarjeta[data-categoria="mayores"]     { border-top-color: var(--cat-mayores); }
+
+/* Los programas sin cupo se atenúan */
+.tarjeta--agotada {
+    opacity: 0.72;
+}
+
+.tarjeta--agotada .tarjeta__figura img {
+    filter: grayscale(1);
+}
 
 .tarjeta__figura {
     overflow: hidden;
@@ -802,15 +877,16 @@ textarea:focus-visible {
     margin-bottom: var(--e3);
 }
 
-/* margin-top:auto empuja el pie al fondo, así todas las
-   tarjetas de una fila terminan alineadas aunque sus
-   descripciones tengan distinta longitud. */
+/* margin-top:auto empuja el pie al fondo, así todas las tarjetas
+   de una fila terminan alineadas aunque sus descripciones tengan
+   distinta longitud. */
 .tarjeta__pie {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--e2);
     margin-top: auto;
+    margin-bottom: var(--e2);
 }
 
 .tarjeta__precio {
@@ -836,6 +912,10 @@ textarea:focus-visible {
 
 .tarjeta__cupos--pocos {
     color: var(--balon);
+}
+
+.tarjeta__cupos--lleno {
+    color: var(--tinta-suave);
 }
 
 .catalogo-vacio {
@@ -1122,320 +1202,21 @@ input[type="radio"] {
 
 
 /* ============================================================
-   14. CIERRE Y PIE
+   14. TORNEOS Y PAGOS
    ============================================================ */
 
-.cierre {
-    background-color: var(--balon);
-    color: var(--blanco);
-    padding-block: var(--e4);
-}
-
-.cierre__interna {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--e3);
-}
-
-.cierre h2 {
-    max-width: 20ch;
-}
-
-.cierre p {
-    margin-top: var(--e1);
-    max-width: 48ch;
-}
-
-.pie {
-    background-color: var(--tinta);
-    color: #B7C0D0;
-    padding-top: var(--e4);
-    font-size: 0.9rem;
-}
-
-.pie__interna {
-    display: grid;
-    gap: var(--e3);
-    padding-bottom: var(--e4);
-}
-
-.pie__titulo {
-    font-family: var(--titular);
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--blanco);
-    margin-bottom: var(--e1);
-}
-
-.pie a {
-    color: #B7C0D0;
-    text-decoration: none;
-    transition: color var(--transicion);
-}
-
-.pie a:hover {
-    color: var(--blanco);
-    text-decoration: underline;
-}
-
-.pie__menu {
-    list-style: none;
-}
-
-.pie__menu li + li {
-    margin-top: 0.35rem;
-}
-
-.pie__legal {
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding-block: var(--e2);
-    font-size: 0.8rem;
-    color: var(--tinta-suave);
-}
-
-
-/* ============================================================
-   15. RESPONSIVE
-   Mobile first: todo lo anterior es la versión móvil y estas
-   consultas van ampliando el diseño con min-width.
-   ============================================================ */
-
-/* --- Tablet: desde 640px --- */
-@media (min-width: 40rem) {
-
-    .contenedor {
-        padding-inline: var(--e4);
-    }
-
-    .cifras__lista {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .categorias {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .panel-categoria__cuerpo {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--e4);
-    }
-
-    .entrenador {
-        grid-template-columns: 14rem 1fr;
-        align-items: stretch;
-    }
-
-    .cierre__interna {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .pie__interna {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .formulario {
-        padding: var(--e4);
-    }
-}
-
-
-/* --- Escritorio: desde 1024px --- */
-@media (min-width: 64rem) {
-
-    /* Desaparece la hamburguesa y el menú vuelve a ser una fila */
-    .menu-boton {
-        display: none;
-    }
-
-    .menu {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--e3);
-        width: auto;
-        padding-top: 0;
-        border-top: none;
-    }
-
-    .menu a {
-        padding: 0;
-    }
-
-    .menu a[aria-current="page"] {
-        border-bottom-color: var(--balon);
-    }
-
-    .hero {
-        padding-block: var(--e5) 0;
-    }
-
-    .hero__interna {
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        gap: var(--e5);
-    }
-
-    .hero__acciones {
-        margin-bottom: var(--e5);
-    }
-
-    .seccion {
-        padding-block: var(--e6);
-    }
-
-    .seccion__doble {
-        grid-template-columns: 22rem 1fr;
-        gap: var(--e5);
-    }
-
-    .categorias {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .encabezado-pagina {
-        padding-block: var(--e5);
-    }
-
-    .formulario-zona {
-        grid-template-columns: 1fr 22rem;
-        align-items: start;
-    }
-
-    .entrenador {
-        grid-template-columns: 18rem 1fr;
-    }
-}
-
-
-/* --- Respeta la preferencia de movimiento reducido --- */
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        transition-duration: 0.01ms !important;
-        animation: none !important;
-    }
-}
-
-/* ============================================================
-   16. AÑADIDOS: LOGO, TIRA DE FOTOS, TORNEOS Y PAGOS
-   ============================================================ */
-
-/* --- Logo con marca --- */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.logo__marca {
-    width: 2.25rem;
-    height: 2.25rem;
-    color: var(--balon);
-    flex-shrink: 0;
-}
-
-.logo__texto {
-    display: block;
-}
-
-/* --- Hero centrado --- */
-.hero {
-    text-align: center;
-    padding-bottom: 0;
-}
-
-.hero__interna {
-    display: block;
-    max-width: 54rem;
-}
-
-.hero__titulo {
-    max-width: none;
-    margin-inline: auto;
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.hero__descripcion {
-    margin-inline: auto;
-    max-width: 52ch;
-}
-
-.hero__acciones {
-    justify-content: center;
-    margin-bottom: var(--e4);
-}
-
-/* --- Tira de fotos en movimiento continuo --------------------
-   Las imágenes están duplicadas en el HTML. La animación
-   desplaza la pista exactamente la mitad de su ancho, así que
-   al terminar el ciclo la segunda copia queda donde estaba la
-   primera y el salto es invisible. */
-
-.tira {
-    overflow: hidden;
-    padding-block: var(--e3) var(--e5);
-    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-}
-
-.tira__pista {
-    display: flex;
-    gap: var(--e2);
-    width: max-content;
-    animation: desfile 38s linear infinite;
-}
-
-.tira:hover .tira__pista {
-    animation-play-state: paused;
-}
-
-@keyframes desfile {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-}
-
-.tira__foto {
-    width: 11rem;
-    flex-shrink: 0;
-    border-radius: 14px;
-    overflow: hidden;
-    background-color: var(--linea);
-    box-shadow: 0 10px 24px rgba(20, 16, 27, 0.12);
-}
-
-.tira__foto img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-}
-
-/* Inclinaciones alternas: da el aire suelto de la referencia */
-.tira__foto:nth-child(3n+1) { transform: rotate(-3deg); }
-.tira__foto:nth-child(3n+2) { transform: rotate(2deg) translateY(-0.75rem); }
-.tira__foto:nth-child(3n+3) { transform: rotate(-1deg) translateY(0.5rem); }
-
-/* --- Torneos --- */
 .torneos {
     display: grid;
     gap: var(--e3);
 }
 
 .torneo {
+    display: flex;
+    flex-direction: column;
     background-color: var(--blanco);
     border: 1px solid var(--linea);
     border-radius: var(--radio);
     padding: var(--e3);
-    display: flex;
-    flex-direction: column;
 }
 
 .torneo__categoria {
@@ -1463,7 +1244,6 @@ input[type="radio"] {
     color: var(--tinta);
 }
 
-/* --- Pagos --- */
 .pagos {
     display: grid;
     gap: var(--e4);
@@ -1537,10 +1317,128 @@ input[type="radio"] {
     background-color: var(--balon);
 }
 
-/* --- Responsive de los añadidos --- */
+
+/* ============================================================
+   15. CIERRE Y PIE
+   ============================================================ */
+
+.cierre {
+    background-color: var(--balon);
+    color: var(--blanco);
+    padding-block: var(--e4);
+}
+
+.cierre__interna {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--e3);
+}
+
+.cierre h2 {
+    max-width: 20ch;
+}
+
+.cierre p {
+    margin-top: var(--e1);
+    max-width: 48ch;
+}
+
+.pie {
+    background-color: var(--tinta);
+    color: #C4BCD2;
+    padding-top: var(--e4);
+    font-size: 0.9rem;
+}
+
+.pie__interna {
+    display: grid;
+    gap: var(--e3);
+    padding-bottom: var(--e4);
+}
+
+.pie__titulo {
+    font-family: var(--titular);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--blanco);
+    margin-bottom: var(--e1);
+}
+
+.pie a {
+    color: #C4BCD2;
+    text-decoration: none;
+    transition: color var(--transicion);
+}
+
+.pie a:hover {
+    color: var(--blanco);
+    text-decoration: underline;
+}
+
+.pie__menu {
+    list-style: none;
+}
+
+.pie__menu li + li {
+    margin-top: 0.35rem;
+}
+
+.pie__legal {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-block: var(--e2);
+    font-size: 0.8rem;
+    color: var(--tinta-suave);
+}
+
+
+/* ============================================================
+   16. RESPONSIVE
+   Mobile first: todo lo anterior es la versión móvil y estas
+   consultas van ampliando el diseño con min-width.
+   ============================================================ */
+
+/* --- Tablet: desde 640px --- */
 @media (min-width: 40rem) {
+
+    .contenedor {
+        padding-inline: var(--e4);
+    }
+
+    .cifras__lista {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .categorias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .torneos {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .panel-categoria__cuerpo {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--e4);
+    }
+
+    .entrenador {
+        grid-template-columns: 14rem 1fr;
+        align-items: stretch;
+    }
+
+    .cierre__interna {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .pie__interna {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .formulario {
+        padding: var(--e4);
     }
 
     .tira__foto {
@@ -1548,7 +1446,53 @@ input[type="radio"] {
     }
 }
 
+
+/* --- Escritorio: desde 1024px --- */
 @media (min-width: 64rem) {
+
+    .menu-boton {
+        display: none;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--e3);
+        width: auto;
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .menu li {
+        animation: none;
+    }
+
+    .menu a {
+        padding: 0;
+    }
+
+    .menu a[aria-current="page"] {
+        border-bottom-color: var(--balon);
+    }
+
+    .hero {
+        padding-block: var(--e5) 0;
+    }
+
+    .seccion {
+        padding-block: var(--e6);
+    }
+
+    .seccion__doble {
+        grid-template-columns: 22rem 1fr;
+        gap: var(--e5);
+    }
+
+    .categorias {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
     .torneos {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -1558,15 +1502,36 @@ input[type="radio"] {
         align-items: start;
     }
 
+    .encabezado-pagina {
+        padding-block: var(--e5);
+    }
+
+    .formulario-zona {
+        grid-template-columns: 1fr 22rem;
+        align-items: start;
+    }
+
+    .entrenador {
+        grid-template-columns: 18rem 1fr;
+    }
+
     .tira__foto {
         width: 15rem;
     }
 }
 
-/* La tira se detiene si el usuario pidió menos movimiento */
+
+/* --- Respeta la preferencia de movimiento reducido --- */
 @media (prefers-reduced-motion: reduce) {
-    .tira__pista {
-        animation: none;
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation: none !important;
     }
 
     .tira {

@@ -1,49 +1,10 @@
-/* ============================================================
-   Titanes — Escuela de Baloncesto
-   Lógica de la interfaz
-   Juan Manuel Moreno Muñoz
 
-   CONTENIDO
-   1. Datos (entrenadores, categorías, grupos)
-   2. Menú responsive
-   3. Catálogo dinámico y filtro
-   4. Opciones del formulario
-   5. Validación del formulario
-   ============================================================ */
-
-
-/* ============================================================
-   1. DATOS
-
-   Estos dos arreglos son las dos entidades del dominio.
-   La relación vive en el campo entrenadorId de cada grupo:
-   apunta al id de un entrenador, igual que una llave foránea.
-
-   En la Entrega 2 estos arreglos se reemplazan por los datos
-   que devuelva la API, y el resto del código no cambia.
-   ============================================================ */
 
 const entrenadores = [
-    {
-        id: 1,
-        nombre: "Andrés Quiceno",
-        especialidad: "Fundamentos individuales"
-    },
-    {
-        id: 2,
-        nombre: "Marcela Ospina",
-        especialidad: "Defensa y lectura de juego"
-    },
-    {
-        id: 3,
-        nombre: "Julián Restrepo",
-        especialidad: "Tiro exterior y ataque"
-    },
-    {
-        id: 4,
-        nombre: "Camilo Arboleda",
-        especialidad: "Preparación física"
-    }
+    { id: 1, nombre: "Andrés Quiceno",  especialidad: "Fundamentos individuales" },
+    { id: 2, nombre: "Marcela Ospina",  especialidad: "Defensa y lectura de juego" },
+    { id: 3, nombre: "Julián Restrepo", especialidad: "Tiro exterior y ataque" },
+    { id: 4, nombre: "Camilo Arboleda", especialidad: "Preparación física" }
 ];
 
 const categorias = [
@@ -130,7 +91,7 @@ const grupos = [
         cupos: 6,
         entrenadorId: 1,
         imagen: "img/grupo-formativa.jpg",
-        descripcion: "Grupo de iniciación para quienes empiezan desde cero. Se trabaja manejo de balón, pase y entrada a canasta, siempre en formato de juego."
+        descripcion: "Programa de iniciación para quienes empiezan desde cero. Se trabaja manejo de balón, pase y entrada a canasta, siempre en formato de juego."
     },
     {
         id: 2,
@@ -144,7 +105,7 @@ const grupos = [
         cupos: 4,
         entrenadorId: 1,
         imagen: "img/grupo-formativa.jpg",
-        descripcion: "Mismo contenido que el grupo de la mañana pero con una sesión adicional por semana. Pensado para quienes estudian en jornada matinal."
+        descripcion: "Mismo contenido que el programa de la mañana pero con una sesión adicional por semana. Pensado para quienes estudian en jornada matinal."
     },
     {
         id: 3,
@@ -169,7 +130,7 @@ const grupos = [
         dias: "Lunes a viernes",
         horario: "6:00 p.m. – 8:00 p.m.",
         precio: 180000,
-        cupos: 3,
+        cupos: 0,
         entrenadorId: 3,
         imagen: "img/grupo-elite.jpg",
         descripcion: "Alto rendimiento con cinco sesiones semanales, preparación física dirigida y análisis de video. Requiere prueba de ingreso."
@@ -207,28 +168,28 @@ const grupos = [
 
 /* --- Funciones de apoyo --------------------------------------- */
 
-/**
- * Busca un entrenador por su id.
- * Es la operación que resuelve la relación entre las dos entidades.
- */
+/** Resuelve la relación entre programa y entrenador. */
 function buscarEntrenador(id) {
     return entrenadores.find(function (entrenador) {
         return entrenador.id === id;
     });
 }
 
-/**
- * Busca una categoría por su clave.
- */
+/** Busca una categoría por su clave. */
 function buscarCategoria(clave) {
     return categorias.find(function (categoria) {
         return categoria.clave === clave;
     });
 }
 
-/**
- * Convierte 95000 en "$95.000" con separadores colombianos.
- */
+/** Busca un programa por su id. */
+function buscarGrupo(id) {
+    return grupos.find(function (grupo) {
+        return grupo.id === Number(id);
+    });
+}
+
+/** Convierte 95000 en "$95.000". */
 function formatearPrecio(valor) {
     return "$" + valor.toLocaleString("es-CO");
 }
@@ -245,16 +206,15 @@ const menuPrincipal = document.getElementById("menu-principal");
 if (menuBoton && menuPrincipal) {
 
     menuBoton.addEventListener("click", function () {
-        // Se lee el estado actual desde el atributo, no desde una
-        // variable aparte. Así el atributo accesible y el estado
-        // visual nunca se desincronizan.
+        // El estado se lee del atributo, no de una variable aparte.
+        // Así el estado visual y el accesible nunca se desincronizan.
         const abierto = menuBoton.getAttribute("aria-expanded") === "true";
 
         menuBoton.setAttribute("aria-expanded", String(!abierto));
         menuPrincipal.classList.toggle("menu--abierto", !abierto);
     });
 
-    // Cerrar el menú con la tecla Escape
+    // Cerrar con Escape y devolver el foco al botón
     document.addEventListener("keydown", function (evento) {
         if (evento.key === "Escape" && menuBoton.getAttribute("aria-expanded") === "true") {
             menuBoton.setAttribute("aria-expanded", "false");
@@ -275,9 +235,7 @@ const catalogo = document.getElementById("catalogo");
 const filtros = document.getElementById("filtros");
 const resultadoFiltro = document.getElementById("resultado-filtro");
 
-/**
- * Construye una tarjeta de grupo y devuelve el elemento.
- */
+/** Construye la tarjeta de un programa. */
 function crearTarjeta(grupo, posicion) {
     const entrenador = buscarEntrenador(grupo.entrenadorId);
     const categoria = buscarCategoria(grupo.categoria);
@@ -285,8 +243,12 @@ function crearTarjeta(grupo, posicion) {
     const tarjeta = document.createElement("article");
     tarjeta.className = "tarjeta";
     tarjeta.dataset.categoria = grupo.categoria;
-    // Esta variable la usa el CSS para escalonar la animación.
+    // El CSS usa --i para escalonar la animación de entrada.
     tarjeta.style.setProperty("--i", posicion);
+
+    if (grupo.cupos === 0) {
+        tarjeta.classList.add("tarjeta--agotada");
+    }
 
     /* --- Imagen --- */
     const figura = document.createElement("figure");
@@ -294,11 +256,11 @@ function crearTarjeta(grupo, posicion) {
 
     const imagen = document.createElement("img");
     imagen.src = grupo.imagen;
-    imagen.alt = "Entrenamiento del grupo " + grupo.nombre;
+    imagen.alt = "Entrenamiento del programa " + grupo.nombre;
     imagen.width = 800;
     imagen.height = 600;
     imagen.loading = "lazy";
-    // Si el archivo no existe, se oculta la figura en vez de
+    // Si el archivo no existe, se quita la figura en vez de
     // dejar el ícono de imagen rota.
     imagen.addEventListener("error", function () {
         figura.remove();
@@ -319,7 +281,7 @@ function crearTarjeta(grupo, posicion) {
     titulo.className = "tarjeta__titulo";
     titulo.textContent = grupo.nombre;
 
-    /* --- Lista de datos (dl con pares dt/dd) --- */
+    /* --- Lista de datos --- */
     const datos = document.createElement("dl");
     datos.className = "tarjeta__datos";
 
@@ -365,29 +327,54 @@ function crearTarjeta(grupo, posicion) {
 
     const cupos = document.createElement("p");
     cupos.className = "tarjeta__cupos";
-    if (grupo.cupos <= 4) {
+
+    if (grupo.cupos === 0) {
+        cupos.classList.add("tarjeta__cupos--lleno");
+        cupos.textContent = "Sin cupos";
+    } else if (grupo.cupos <= 4) {
         cupos.classList.add("tarjeta__cupos--pocos");
+        cupos.textContent = grupo.cupos === 1
+            ? "Último cupo"
+            : "Solo " + grupo.cupos + " cupos";
+    } else {
+        cupos.textContent = grupo.cupos + " cupos disponibles";
     }
-    cupos.textContent = grupo.cupos === 1
-        ? "Último cupo"
-        : grupo.cupos + " cupos disponibles";
 
     pie.appendChild(precio);
     pie.appendChild(cupos);
+
+    /* --- Acción ---------------------------------------------
+       Regla del dominio: sin cupos no se puede inscribir.
+       Se usa un <button> deshabilitado en lugar de un enlace,
+       porque un enlace no se puede desactivar de verdad. */
+    let accion;
+
+    if (grupo.cupos === 0) {
+        accion = document.createElement("button");
+        accion.type = "button";
+        accion.className = "boton boton--ancho boton--agotado";
+        accion.disabled = true;
+        accion.textContent = "Cupos agotados";
+    } else {
+        accion = document.createElement("a");
+        // El id viaja en la URL para preseleccionar el programa
+        accion.href = "inscripcion.html?grupo=" + grupo.id;
+        accion.className = "boton boton--ancho";
+        accion.textContent = "Inscribirme en este programa";
+    }
 
     cuerpo.appendChild(etiquetaCategoria);
     cuerpo.appendChild(titulo);
     cuerpo.appendChild(datos);
     cuerpo.appendChild(descripcion);
     cuerpo.appendChild(pie);
+    cuerpo.appendChild(accion);
     tarjeta.appendChild(cuerpo);
 
     return tarjeta;
 }
 
-/**
- * Construye el panel informativo de una categoría.
- */
+/** Construye el panel informativo de una categoría. */
 function crearPanelCategoria(categoria) {
     const panel = document.createElement("section");
     panel.className = "panel-categoria";
@@ -407,7 +394,6 @@ function crearPanelCategoria(categoria) {
 
     const cuerpo = document.createElement("div");
     cuerpo.className = "panel-categoria__cuerpo";
-
     cuerpo.appendChild(crearBloqueLista("Qué se trabaja", categoria.trabajo));
     cuerpo.appendChild(crearBloqueLista("Dónde compite", categoria.torneos));
 
@@ -419,9 +405,7 @@ function crearPanelCategoria(categoria) {
     return panel;
 }
 
-/**
- * Crea un bloque con título y lista de puntos.
- */
+/** Crea un bloque con título y lista de puntos. */
 function crearBloqueLista(titulo, elementos) {
     const bloque = document.createElement("div");
 
@@ -442,19 +426,15 @@ function crearBloqueLista(titulo, elementos) {
     return bloque;
 }
 
-/**
- * Dibuja el catálogo filtrado por categoría.
- * "todas" muestra los seis grupos y oculta el panel.
- */
+/** Dibuja el catálogo filtrado por categoría. */
 function pintarCatalogo(clave) {
     if (!catalogo) {
         return;
     }
 
-    // Se limpia antes de volver a construir
     catalogo.innerHTML = "";
 
-    // El panel vive fuera del catálogo, así que se borra aparte
+    // El panel vive fuera del catálogo, se borra aparte
     const panelAnterior = document.querySelector(".panel-categoria");
     if (panelAnterior) {
         panelAnterior.remove();
@@ -466,7 +446,7 @@ function pintarCatalogo(clave) {
             return grupo.categoria === clave;
         });
 
-    // Panel informativo, solo al filtrar por una categoría
+    // El panel solo aparece al filtrar por una categoría concreta
     if (clave !== "todas") {
         const categoria = buscarCategoria(clave);
         catalogo.parentNode.insertBefore(crearPanelCategoria(categoria), catalogo);
@@ -475,7 +455,7 @@ function pintarCatalogo(clave) {
     if (visibles.length === 0) {
         const vacio = document.createElement("p");
         vacio.className = "catalogo-vacio";
-        vacio.textContent = "No hay grupos abiertos en esta categoría por ahora.";
+        vacio.textContent = "No hay programas abiertos en esta categoría por ahora.";
         catalogo.appendChild(vacio);
     } else {
         visibles.forEach(function (grupo, indice) {
@@ -484,16 +464,26 @@ function pintarCatalogo(clave) {
     }
 
     if (resultadoFiltro) {
-        const plural = visibles.length === 1 ? "grupo" : "grupos";
-        resultadoFiltro.textContent = clave === "todas"
-            ? "Mostrando los " + visibles.length + " grupos."
-            : "Mostrando " + visibles.length + " " + plural + " de la categoría " + buscarCategoria(clave).nombre + ".";
+        const plural = visibles.length === 1 ? "programa" : "programas";
+        const conCupo = visibles.filter(function (grupo) {
+            return grupo.cupos > 0;
+        }).length;
+
+        let texto = clave === "todas"
+            ? "Mostrando los " + visibles.length + " programas"
+            : "Mostrando " + visibles.length + " " + plural + " de la categoría " + buscarCategoria(clave).nombre;
+
+        texto += conCupo === visibles.length
+            ? ", todos con cupos disponibles."
+            : ", " + conCupo + " con cupos disponibles.";
+
+        resultadoFiltro.textContent = texto;
     }
 }
 
 /* --- Eventos del filtro (Grupo C) ------------------------------
-   Delegación: un solo listener en el contenedor en lugar de
-   uno por botón. El evento burbujea desde el botón hasta aquí. */
+   Delegación: un solo listener en el contenedor en lugar de uno
+   por botón. El evento burbujea desde el botón hasta aquí. */
 
 if (filtros) {
 
@@ -504,7 +494,6 @@ if (filtros) {
             return;
         }
 
-        // Se apaga el filtro anterior y se enciende el nuevo
         const activos = filtros.querySelectorAll(".filtro--activo");
         activos.forEach(function (elemento) {
             elemento.classList.remove("filtro--activo");
@@ -514,26 +503,42 @@ if (filtros) {
         pintarCatalogo(boton.dataset.categoria);
     });
 
-    // Dibujo inicial: los seis grupos
     pintarCatalogo("todas");
 }
 
 
 /* ============================================================
    4. OPCIONES DEL FORMULARIO
-   El select se llena desde el mismo arreglo de grupos, así
+   El select se llena desde el mismo arreglo de programas, así
    nunca queda desactualizado respecto al catálogo.
    ============================================================ */
 
 const selectGrupo = document.getElementById("grupo");
 
 if (selectGrupo) {
+
     grupos.forEach(function (grupo) {
         const opcion = document.createElement("option");
         opcion.value = String(grupo.id);
         opcion.textContent = grupo.nombre + " (" + grupo.edadMin + "–" + grupo.edadMax + " años)";
+
+        // Los programas sin cupo aparecen pero no se pueden elegir
+        if (grupo.cupos === 0) {
+            opcion.disabled = true;
+            opcion.textContent += " — sin cupos";
+        }
+
         selectGrupo.appendChild(opcion);
     });
+
+    /* Si se llegó desde una tarjeta del catálogo, el programa
+       viene en la URL y queda preseleccionado. */
+    const parametros = new URLSearchParams(window.location.search);
+    const idDesdeUrl = parametros.get("grupo");
+
+    if (idDesdeUrl && buscarGrupo(idDesdeUrl)) {
+        selectGrupo.value = idDesdeUrl;
+    }
 }
 
 
@@ -555,9 +560,7 @@ if (formulario) {
 
     const MAYORIA_DE_EDAD = 18;
 
-    /**
-     * Escribe un error debajo de un campo y lo marca en rojo.
-     */
+    /** Escribe un error debajo de un campo y lo marca en rojo. */
     function mostrarError(idCampo, texto) {
         const campo = document.getElementById(idCampo);
         const salida = document.getElementById("error-" + idCampo);
@@ -571,24 +574,18 @@ if (formulario) {
         }
     }
 
-    /**
-     * Borra todos los errores antes de volver a validar.
-     */
+    /** Borra todos los errores antes de volver a validar. */
     function limpiarErrores() {
-        const errores = formulario.querySelectorAll(".error");
-        errores.forEach(function (elemento) {
+        formulario.querySelectorAll(".error").forEach(function (elemento) {
             elemento.textContent = "";
         });
 
-        const invalidos = formulario.querySelectorAll(".invalido");
-        invalidos.forEach(function (elemento) {
+        formulario.querySelectorAll(".invalido").forEach(function (elemento) {
             elemento.classList.remove("invalido");
         });
     }
 
-    /**
-     * Devuelve true si el aspirante es menor de edad.
-     */
+    /** Devuelve true si el aspirante es menor de edad. */
     function esMenorDeEdad() {
         const edad = Number(campoEdad.value);
         return campoEdad.value !== "" && edad < MAYORIA_DE_EDAD;
@@ -596,9 +593,7 @@ if (formulario) {
 
     /* --- Regla propia 1 -------------------------------------
        El bloque del acudiente aparece o desaparece según la
-       edad que se escriba, y sus campos solo se validan
-       cuando está visible. */
-
+       edad escrita, y sus campos solo se validan si está visible. */
     function actualizarBloqueAcudiente() {
         if (!bloqueAcudiente) {
             return;
@@ -612,19 +607,17 @@ if (formulario) {
         actualizarBloqueAcudiente();
     }
 
-    /* --- Contador de caracteres del mensaje ------------------ */
-
+    /* --- Contador de caracteres --- */
     if (campoMensaje && contadorMensaje) {
         campoMensaje.addEventListener("input", function () {
             contadorMensaje.textContent = campoMensaje.value.length + " / 300 caracteres";
         });
     }
 
-    /* --- Validación al enviar -------------------------------- */
-
+    /* --- Validación al enviar --- */
     formulario.addEventListener("submit", function (evento) {
-        // Se detiene el envío siempre: la página no debe recargarse
-        // mientras se decide si los datos son correctos.
+        // Se detiene el envío: la página no debe recargarse mientras
+        // se decide si los datos son correctos.
         evento.preventDefault();
 
         limpiarErrores();
@@ -636,7 +629,7 @@ if (formulario) {
         let valido = true;
         let primerError = null;
 
-        /* Nombre: requerido y mínimo 5 caracteres */
+        /* Nombre: requerido, mínimo 5 caracteres */
         const nombre = document.getElementById("nombre").value.trim();
         if (nombre === "") {
             mostrarError("nombre", "Escribe el nombre completo del aspirante.");
@@ -660,29 +653,35 @@ if (formulario) {
             primerError = primerError || "edad";
         }
 
-        /* Grupo: requerido */
+        /* Programa: requerido */
         const idGrupo = selectGrupo.value;
         if (idGrupo === "") {
-            mostrarError("grupo", "Selecciona el grupo que te interesa.");
+            mostrarError("grupo", "Selecciona el programa que te interesa.");
             valido = false;
             primerError = primerError || "grupo";
         }
 
-        /* --- Regla propia 2 ---------------------------------
-           La edad debe corresponder al rango del grupo elegido.
-           Es una regla del dominio: no tiene sentido inscribir
-           a alguien de 25 años en un grupo de 10 a 12. */
-        if (idGrupo !== "" && campoEdad.value !== "") {
-            const grupoElegido = grupos.find(function (grupo) {
-                return grupo.id === Number(idGrupo);
-            });
+        const grupoElegido = idGrupo !== "" ? buscarGrupo(idGrupo) : null;
 
-            if (grupoElegido && (edad < grupoElegido.edadMin || edad > grupoElegido.edadMax)) {
+        /* --- Regla propia 2 ---------------------------------
+           Un programa sin cupos no admite inscripción. */
+        if (grupoElegido && grupoElegido.cupos === 0) {
+            mostrarError("grupo", grupoElegido.nombre + " no tiene cupos disponibles. Elige otro programa.");
+            valido = false;
+            primerError = primerError || "grupo";
+        }
+
+        /* --- Regla propia 3 ---------------------------------
+           La edad debe corresponder al rango del programa.
+           No tiene sentido inscribir a alguien de 25 años en
+           un programa de 10 a 12. */
+        if (grupoElegido && campoEdad.value !== "" && grupoElegido.cupos > 0) {
+            if (edad < grupoElegido.edadMin || edad > grupoElegido.edadMax) {
                 mostrarError(
                     "grupo",
                     grupoElegido.nombre + " es para jugadores de " +
                     grupoElegido.edadMin + " a " + grupoElegido.edadMax +
-                    " años. Revisa el grupo seleccionado."
+                    " años. Revisa el programa seleccionado."
                 );
                 valido = false;
                 primerError = primerError || "grupo";
@@ -690,8 +689,8 @@ if (formulario) {
         }
 
         /* Correo: requerido y con formato válido.
-           La expresión regular pide texto, arroba, texto, punto
-           y al menos dos letras finales. */
+           La expresión pide texto, arroba, texto, punto y al
+           menos dos letras finales. */
         const correo = document.getElementById("correo").value.trim();
         const patronCorreo = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
 
@@ -705,8 +704,7 @@ if (formulario) {
             primerError = primerError || "correo";
         }
 
-        /* Teléfono: exactamente 10 dígitos.
-           Se quitan espacios y guiones antes de contar. */
+        /* Teléfono: 10 dígitos. Se quitan espacios y guiones antes. */
         const telefono = document.getElementById("telefono").value.replace(/[\s-]/g, "");
 
         if (telefono === "") {
@@ -730,7 +728,7 @@ if (formulario) {
             primerError = primerError || "exp-ninguna";
         }
 
-        /* Campos del acudiente: solo si el aspirante es menor */
+        /* Acudiente: solo si el aspirante es menor */
         if (esMenorDeEdad()) {
             const acudiente = document.getElementById("acudiente").value.trim();
             const telAcudiente = document.getElementById("tel-acudiente").value.replace(/[\s-]/g, "");
@@ -771,11 +769,11 @@ if (formulario) {
             primerError = primerError || "datos";
         }
 
-        /* --- Resultado ---------------------------------------- */
+        /* --- Resultado --- */
 
         if (!valido) {
-            // Llevar el foco al primer campo con error: quien navega
-            // con teclado o lector de pantalla sabe dónde corregir.
+            // El foco va al primer campo con error: quien navega con
+            // teclado o lector de pantalla sabe dónde corregir.
             const campo = document.getElementById(primerError);
             if (campo) {
                 campo.focus();
@@ -783,12 +781,8 @@ if (formulario) {
             return;
         }
 
-        // Sin backend, el envío se simula. En la Entrega 2 aquí
-        // va la petición a la API.
-        const grupoElegido = grupos.find(function (grupo) {
-            return grupo.id === Number(idGrupo);
-        });
-
+        // Sin backend, el envío se simula. En la Entrega 2 aquí va
+        // la petición a la API.
         if (mensajeExito) {
             mensajeExito.textContent =
                 "Inscripción recibida para " + grupoElegido.nombre +
